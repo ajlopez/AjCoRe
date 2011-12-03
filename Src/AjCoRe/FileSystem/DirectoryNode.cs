@@ -24,8 +24,9 @@
             this.name = name;
             this.info = info;
 
-            PropertyList properties = new PropertyList(new List<Property>()
+            this.properties = new PropertyList(new List<Property>()
             {
+                new Property("Name", info.Name),
                 new Property("FullName", info.FullName),
                 new Property("Extension", info.Extension),
                 new Property("CreationTime", info.CreationTime),
