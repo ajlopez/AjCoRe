@@ -8,9 +8,9 @@
     public class Workspace
     {
         private string name;
-        private Node root;
+        private INode root;
 
-        public Workspace(string name, Node root)
+        public Workspace(string name, INode root)
         {
             this.name = name;
             this.root = root;
@@ -18,6 +18,6 @@
 
         public string Name { get { return this.name; } }
 
-        public Node RootNode { get { return this.root; } }
+        public INode RootNode { get { return this.root; } }
     }
 }

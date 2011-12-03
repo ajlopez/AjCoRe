@@ -5,15 +5,15 @@
     using System.Linq;
     using System.Text;
 
-    public class NodeList : IEnumerable<Node>
+    public class NodeList : IEnumerable<INode>
     {
-        private List<Node> nodes = null;
+        private List<INode> nodes = null;
 
         public NodeList()
         {
         }
 
-        public Node this[string name]
+        public INode this[string name]
         {
             get
             {
@@ -21,10 +21,10 @@
             }
         }
 
-        public IEnumerator<Node> GetEnumerator()
+        public IEnumerator<INode> GetEnumerator()
         {
             if (this.nodes == null)
-                this.nodes = new List<Node>();
+                this.nodes = new List<INode>();
 
             return this.nodes.GetEnumerator();
         }
@@ -32,15 +32,15 @@
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             if (this.nodes == null)
-                this.nodes = new List<Node>();
+                this.nodes = new List<INode>();
 
             return this.nodes.GetEnumerator();
         }
 
-        internal void AddNode(Node node)
+        internal void AddNode(INode node)
         {
             if (this.nodes == null)
-                this.nodes = new List<Node>();
+                this.nodes = new List<INode>();
 
             this.nodes.Add(node);
         }

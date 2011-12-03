@@ -1,20 +1,20 @@
-﻿namespace AjCoRe
+﻿namespace AjCoRe.Base
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
-    public class Node
+    public class Node : INode
     {
         string name;
         PropertyList properties;
         NodeList nodes;
-        Node parent;
+        INode parent;
 
         public string Name { get { return this.name; } }
 
-        public Node Parent { get { return this.parent; } }
+        public INode Parent { get { return this.parent; } }
 
         public PropertyList Properties { get { return this.properties; } }
 
