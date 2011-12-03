@@ -36,9 +36,6 @@
                 new Property("LastWriteTime", info.LastWriteTime),
                 new Property("LastWriteTimeUtc", info.LastWriteTimeUtc)
             });
-
-            if (this.parent != null)
-                this.parent.ChildNodes.AddNode(this);
         }
 
         public string Name { get { return this.name; } }
@@ -52,6 +49,9 @@
             get
             {
                 NodeList nodes = new NodeList();
+
+                foreach (var di in this.info.GetDirectories())
+                    nodes.AddNode(new DirectoryNode(this, di.Name, di));
 
                 foreach (var fi in this.info.GetFiles())
                     nodes.AddNode(new FileNode(this, fi.Name, fi));

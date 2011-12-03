@@ -56,5 +56,52 @@ namespace AjCoRe.Tests.FileSystem
             Assert.IsNotNull(root.ChildNodes["TextFile1.txt"]);
             Assert.IsNotNull(root.ChildNodes["TextFile1.txt"]);
         }
+
+        [TestMethod]
+        [DeploymentItem("Files/FileSystem", "fs")]
+        public void GetFileProperties()
+        {
+            Workspace workspace = new Workspace("fs", "fs");
+            INode root = workspace.RootNode;
+            INode file = root.ChildNodes["TextFile1.txt"];
+            FileInfo info = new FileInfo("fs/TextFile1.txt");
+
+            Assert.AreEqual(info.Extension, file.Properties["Extension"].Value);
+            Assert.AreEqual(info.FullName, file.Properties["FullName"].Value);
+            Assert.AreEqual(info.Name, file.Properties["Name"].Value);
+            Assert.AreEqual(info.CreationTime, file.Properties["CreationTime"].Value);
+            Assert.AreEqual(info.CreationTimeUtc, file.Properties["CreationTimeUtc"].Value);
+            Assert.AreEqual(info.LastAccessTime, file.Properties["LastAccessTime"].Value);
+            Assert.AreEqual(info.LastAccessTimeUtc, file.Properties["LastAccessTimeUtc"].Value);
+            Assert.AreEqual(info.LastWriteTime, file.Properties["LastWriteTime"].Value);
+            Assert.AreEqual(info.LastWriteTimeUtc, file.Properties["LastWriteTimeUtc"].Value);
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files/FileSystem", "fs")]
+        public void GetDirectoriesFromRoot()
+        {
+            Workspace workspace = new Workspace("fs", "fs");
+            INode root = workspace.RootNode;
+
+            Assert.IsNotNull(root.ChildNodes["Subfolder1"]);
+            Assert.IsNotNull(root.ChildNodes["Subfolder2"]);
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files/FileSystem", "fs")]
+        public void GetFilesFromSubdirectories()
+        {
+            Workspace workspace = new Workspace("fs", "fs");
+            INode root = workspace.RootNode;
+            INode subfolder1 = root.ChildNodes["Subfolder1"];
+            INode subfolder2 = root.ChildNodes["Subfolder2"];
+
+            Assert.IsNotNull(subfolder1.ChildNodes["TextFile3.txt"]);
+            Assert.IsNotNull(subfolder2.ChildNodes["TextFile4.txt"]);
+
+            Assert.IsInstanceOfType(subfolder1.ChildNodes["TextFile3.txt"], typeof(FileNode));
+            Assert.IsInstanceOfType(subfolder2.ChildNodes["TextFile4.txt"], typeof(FileNode));
+        }
     }
 }

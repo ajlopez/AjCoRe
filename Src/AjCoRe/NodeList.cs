@@ -13,11 +13,6 @@
         {
         }
 
-        public NodeList(IEnumerable<INode> nodes)
-        {
-            this.nodes = new List<INode>(nodes);
-        }
-
         public INode this[string name]
         {
             get
