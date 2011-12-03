@@ -11,7 +11,10 @@
 
         public PropertyList(IEnumerable<Property> properties)
         {
-            this.properties = new List<Property>(properties);
+            if (properties == null)
+                this.properties = new List<Property>();
+            else
+                this.properties = new List<Property>(properties);
         }
 
         public Property this[string name]
