@@ -45,5 +45,16 @@ namespace AjCoRe.Tests.FileSystem
             Assert.AreEqual(string.Empty, workspace.RootNode.Name);
             Assert.IsNull(workspace.RootNode.Parent);
         }
+
+        [TestMethod]
+        [DeploymentItem("Files/FileSystem", "fs")]
+        public void GetFilesFromRoot()
+        {
+            Workspace workspace = new Workspace("fs", "fs");
+            INode root = workspace.RootNode;
+
+            Assert.IsNotNull(root.ChildNodes["TextFile1.txt"]);
+            Assert.IsNotNull(root.ChildNodes["TextFile1.txt"]);
+        }
     }
 }

@@ -6,19 +6,16 @@
     using System.Text;
     using System.IO;
 
-    public class DirectoryNode : INode
+    public class FileNode : INode
     {
+        private static NodeList emptyChildNodes = new NodeList();
+
         private string name;
-        private DirectoryInfo info;
+        private FileInfo info;
         private INode parent;
         private PropertyList properties;
 
-        public DirectoryNode(DirectoryInfo info)
-            : this(null, string.Empty, info)
-        {
-        }
-
-        public DirectoryNode(DirectoryNode parent, string name, DirectoryInfo info)
+        public FileNode(DirectoryNode parent, string name, FileInfo info)
         {
             this.parent = parent;
             this.name = name;
@@ -36,9 +33,6 @@
                 new Property("LastWriteTime", info.LastWriteTime),
                 new Property("LastWriteTimeUtc", info.LastWriteTimeUtc)
             });
-
-            if (this.parent != null)
-                this.parent.ChildNodes.AddNode(this);
         }
 
         public string Name { get { return this.name; } }
@@ -47,18 +41,7 @@
 
         public PropertyList Properties { get { return this.properties; } }
 
-        public NodeList ChildNodes
-        {
-            get
-            {
-                NodeList nodes = new NodeList();
-
-                foreach (var fi in this.info.GetFiles())
-                    nodes.AddNode(new FileNode(this, fi.Name, fi));
-
-                return nodes;
-            }
-        }
+        public NodeList ChildNodes { get { return emptyChildNodes; } }
     }
 }
 
