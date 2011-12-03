@@ -9,6 +9,7 @@ namespace AjCoRe.Tests
     [TestClass]
     public class NodeTests
     {
+        [TestMethod]
         public void CreateNode()
         {
             Node node = new Node("person", new List<Property>()
