@@ -56,5 +56,20 @@ namespace AjCoRe.Tests
             Assert.IsNull(node.Parent);
             Assert.AreEqual(string.Empty, node.Name);
         }
+
+        [TestMethod]
+        public void GetChildNodes()
+        {
+            Node root = new Node(null);
+            Node node1 = new Node(root, "person1", null);
+            Node node2 = new Node(root, "person2", null);
+
+            Assert.IsTrue(root.ChildNodes.Contains(node1));
+            Assert.IsTrue(root.ChildNodes.Contains(node2));
+
+            Assert.AreEqual(node1, root.ChildNodes["person1"]);
+            Assert.AreEqual(node2, root.ChildNodes["person2"]);
+            Assert.IsNull(root.ChildNodes["person3"]);
+        }
     }
 }

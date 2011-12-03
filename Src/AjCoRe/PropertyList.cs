@@ -21,18 +21,18 @@
         {
             get
             {
-                return properties.Where(p => p.Name == name).SingleOrDefault();
+                return this.properties.Where(p => p.Name == name).SingleOrDefault();
             }
         }
 
         public IEnumerator<Property> GetEnumerator()
         {
-            return properties.GetEnumerator();
+            return this.properties.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return properties.GetEnumerator();
+            return this.properties.GetEnumerator();
         }
     }
 }

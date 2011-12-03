@@ -9,6 +9,7 @@
     {
         string name;
         PropertyList properties;
+        NodeList nodes;
         Node parent;
 
         public string Name { get { return this.name; } }
@@ -16,6 +17,8 @@
         public Node Parent { get { return this.parent; } }
 
         public PropertyList Properties { get { return this.properties; } }
+
+        public NodeList ChildNodes { get { return this.nodes; } }
 
         public Node(IEnumerable<Property> properties)
             : this(null, string.Empty, properties)
@@ -28,6 +31,10 @@
             this.name = name;
 
             this.properties = new PropertyList(properties);
+            this.nodes = new NodeList();
+
+            if (this.parent != null)
+                this.parent.ChildNodes.AddNode(this);
         }
     }
 }
