@@ -1,11 +1,11 @@
-﻿namespace AjCoRe
+﻿namespace AjCoRe.Base
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
-    public class Workspace
+    public class Workspace : IWorkspace
     {
         private string name;
         private INode root;

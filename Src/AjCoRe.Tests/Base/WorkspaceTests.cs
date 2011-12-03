@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AjCoRe.Base;
 
-namespace AjCoRe.Tests
+namespace AjCoRe.Tests.Base
 {
     [TestClass]
     public class WorkspaceTests
