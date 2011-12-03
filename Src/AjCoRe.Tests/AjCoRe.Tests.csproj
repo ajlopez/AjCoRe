@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\NodeTests.cs" />
+    <Compile Include="FileSystem\WorkspaceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyTests.cs" />
     <Compile Include="Base\WorkspaceTests.cs" />
@@ -48,6 +49,14 @@
       <Project>{263FA1F3-C330-4110-BBD4-7F75A42ED8CF}</Project>
       <Name>AjCoRe</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Files\FileSystem\TextFile1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\FileSystem\TextFile2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

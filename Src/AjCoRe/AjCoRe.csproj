@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileSystem\DirectoryNode.cs" />
+    <Compile Include="FileSystem\Workspace.cs" />
     <Compile Include="INode.cs" />
     <Compile Include="IWorkspace.cs" />
     <Compile Include="NodeList.cs" />
