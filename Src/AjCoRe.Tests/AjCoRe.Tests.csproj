@@ -41,6 +41,7 @@
     <Compile Include="NodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyTests.cs" />
+    <Compile Include="WorkspaceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AjCoRe\AjCoRe.csproj">
