@@ -7,17 +7,16 @@
 
     public class Node
     {
-        string id;
         string name;
-        IList<Property> properties;
+        PropertyList properties;
 
-        public IEnumerable<Property> Properties { get { return this.properties; } }
+        public PropertyList Properties { get { return this.properties; } }
 
         public Node(string name, IEnumerable<Property> properties)
         {
             this.name = name;
 
-            this.properties = new List<Property>(properties);
+            this.properties = new PropertyList(properties);
         }
     }
 }
