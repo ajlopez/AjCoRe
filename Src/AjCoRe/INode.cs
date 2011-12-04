@@ -11,5 +11,7 @@
         PropertyList Properties { get; }
 
         NodeList ChildNodes { get; }
+
+        string Path { get; }
     }
 }

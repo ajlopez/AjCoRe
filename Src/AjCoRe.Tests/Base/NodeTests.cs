@@ -82,5 +82,17 @@ namespace AjCoRe.Tests.Base
             Assert.AreEqual(node2, root.ChildNodes["person2"]);
             Assert.IsNull(root.ChildNodes["person3"]);
         }
+
+        [TestMethod]
+        public void GetPaths()
+        {
+            INode root = this.workspace.RootNode;
+            INode node1 = session.CreateNode(root, "person1", null);
+            INode node2 = session.CreateNode(root, "person2", null);
+
+            Assert.AreEqual("/", root.Path);
+            Assert.AreEqual("/person1", node1.Path);
+            Assert.AreEqual("/person2", node2.Path);
+        }
     }
 }

@@ -20,6 +20,18 @@
 
         public NodeList ChildNodes { get { return this.nodes; } }
 
+        public string Path
+        {
+            get
+            {
+                if (this.parent == null)
+                    return "/";
+                if (this.parent.Parent == null)
+                    return "/" + this.name;
+                return this.parent.Path + "/" + this.name;
+            }
+        }
+
         internal Node(IEnumerable<Property> properties)
             : this(null, string.Empty, properties)
         {

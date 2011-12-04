@@ -59,6 +59,18 @@
                 return nodes;
             }
         }
+
+        public string Path
+        {
+            get
+            {
+                if (this.parent == null)
+                    return "/";
+                if (this.parent.Parent == null)
+                    return "/" + this.name;
+                return this.parent.Path + "/" + this.name;
+            }
+        }
     }
 }
 

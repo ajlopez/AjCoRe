@@ -103,5 +103,20 @@ namespace AjCoRe.Tests.FileSystem
             Assert.IsInstanceOfType(subfolder1.ChildNodes["TextFile3.txt"], typeof(FileNode));
             Assert.IsInstanceOfType(subfolder2.ChildNodes["TextFile4.txt"], typeof(FileNode));
         }
+
+        [TestMethod]
+        [DeploymentItem("Files/FileSystem", "fs")]
+        public void GetPaths()
+        {
+            Workspace workspace = new Workspace("fs", "fs");
+            INode root = workspace.RootNode;
+            INode subfolder1 = root.ChildNodes["Subfolder1"];
+            INode subfolder2 = root.ChildNodes["Subfolder2"];
+
+            Assert.AreEqual("/Subfolder1", subfolder1.Path);
+            Assert.AreEqual("/Subfolder2", subfolder2.Path);
+            Assert.AreEqual("/Subfolder1/TextFile3.txt", subfolder1.ChildNodes["TextFile3.txt"].Path);
+            Assert.AreEqual("/Subfolder2/TextFile4.txt", subfolder2.ChildNodes["TextFile4.txt"].Path);
+        }
     }
 }

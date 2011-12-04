@@ -42,6 +42,18 @@
         public PropertyList Properties { get { return this.properties; } }
 
         public NodeList ChildNodes { get { return emptyChildNodes; } }
+
+        public string Path
+        {
+            get
+            {
+                if (this.parent == null)
+                    return "/";
+                if (this.parent.Parent == null)
+                    return "/" + this.name;
+                return this.parent.Path + "/" + this.name;
+            }
+        }
     }
 }
 
