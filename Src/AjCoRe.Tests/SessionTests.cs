@@ -46,9 +46,13 @@ namespace AjCoRe.Tests
         {
             Session session = this.factory.OpenSession("ws1");
             INode node = session.Workspace.RootNode;
-            session.SetPropertyValue(node, "Name", "Adam");
 
-            Assert.AreEqual("Adam", node.Properties["Name"].Value);
+            using (var tr = session.OpenTransaction())
+            {
+                session.SetPropertyValue(node, "Name", "Adam");
+
+                Assert.AreEqual("Adam", node.Properties["Name"].Value);
+            }
         }
 
         [TestMethod]
@@ -56,9 +60,13 @@ namespace AjCoRe.Tests
         {
             Session session = this.factory.OpenSession("ws1");
             INode node = session.Workspace.RootNode;
-            session.SetPropertyValue(node, "Name", "Adam");
-            session.SetPropertyValue(node, "Name", null);
-            Assert.IsNull(node.Properties["Name"]);
+
+            using (var tr = session.OpenTransaction())
+            {
+                session.SetPropertyValue(node, "Name", "Adam");
+                session.SetPropertyValue(node, "Name", null);
+                Assert.IsNull(node.Properties["Name"]);
+            }
         }
 
         [TestMethod]
@@ -66,16 +74,20 @@ namespace AjCoRe.Tests
         {
             Session session = this.factory.OpenSession("ws1");
             INode root = session.Workspace.RootNode;
-            INode node = session.CreateNode(root, "person1", new List<Property>()
-            {
-                new Property("Name", "Adam"),
-                new Property("Age", 800)
-            });
 
-            Assert.IsTrue(root.ChildNodes.Contains(node));
-            Assert.AreEqual(root, node.Parent);
-            Assert.AreEqual("Adam", node.Properties["Name"].Value);
-            Assert.AreEqual(800, node.Properties["Age"].Value);
+            using (var tr = session.OpenTransaction())
+            {
+                INode node = session.CreateNode(root, "person1", new List<Property>()
+                {
+                    new Property("Name", "Adam"),
+                    new Property("Age", 800)
+                });
+
+                Assert.IsTrue(root.ChildNodes.Contains(node));
+                Assert.AreEqual(root, node.Parent);
+                Assert.AreEqual("Adam", node.Properties["Name"].Value);
+                Assert.AreEqual(800, node.Properties["Age"].Value);
+            }
         }
 
         [TestMethod]
@@ -83,16 +95,20 @@ namespace AjCoRe.Tests
         {
             Session session = this.factory.OpenSession("ws1");
             INode root = session.Workspace.RootNode;
-            INode node = session.CreateNode(root, "person1", new List<Property>()
+
+            using (var tr = session.OpenTransaction())
             {
-                new Property("Name", "Adam"),
-                new Property("Age", 800)
-            });
+                INode node = session.CreateNode(root, "person1", new List<Property>()
+                {
+                    new Property("Name", "Adam"),
+                    new Property("Age", 800)
+                });
 
-            session.RemoveNode(node);
+                session.RemoveNode(node);
 
-            Assert.IsFalse(root.ChildNodes.Contains(node));
-            Assert.AreNotEqual(root, node.Parent);
+                Assert.IsFalse(root.ChildNodes.Contains(node));
+                Assert.AreNotEqual(root, node.Parent);
+            }
         }
     }
 }

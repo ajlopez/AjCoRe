@@ -60,6 +60,7 @@
     <Compile Include="Base\Workspace.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionFactory.cs" />
+    <Compile Include="Transactions\Transaction.cs" />
     <Compile Include="WorkspaceRegistry.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
