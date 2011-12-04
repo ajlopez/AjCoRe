@@ -5,7 +5,24 @@ using System.Text;
 
 namespace AjCoRe.Transactions
 {
-    class RemoveNodeOperation
+    class RemoveNodeOperation : Operation
     {
+        private INode parent;
+        private INode node;
+
+        internal RemoveNodeOperation(INode parent, INode node)
+        {
+            this.parent = parent;
+            this.node = node;
+        }
+
+        override internal void Commit()
+        {
+        }
+
+        override internal void Rollback()
+        {
+            ((IUpdatableNode)node).SetParent(parent);
+        }
     }
 }

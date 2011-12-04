@@ -19,25 +19,25 @@
 
         public void Complete()
         {
-            foreach (Operation operation in operations)
+            foreach (Operation operation in this.operations)
                 operation.Commit();
 
-            operations.Clear();
+            this.operations.Clear();
         }
 
         public void Dispose()
         {
-            for (int k = operations.Count; k-- > 0; )
-                operations[k].Rollback();
+            for (int k = this.operations.Count; k-- > 0; )
+                this.operations[k].Rollback();
 
-            operations.Clear();
+            this.operations.Clear();
 
             this.session.CloseTransaction();
         }
 
         internal void RegisterSetPropertyValue(INode node, string name, object oldvalue, object newvalue)
         {
-            throw new NotImplementedException();
+            this.operations.Add(new SetPropertyValueOperation(node, name, oldvalue, newvalue));
         }
 
         internal void RegisterCreateNode(INode parent, INode newnode)
@@ -47,7 +47,7 @@
 
         internal void RegisterRemoveNode(INode parent, INode node)
         {
-            throw new NotImplementedException();
+            this.operations.Add(new RemoveNodeOperation(parent, node));
         }
     }
 }

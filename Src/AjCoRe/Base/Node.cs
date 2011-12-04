@@ -51,8 +51,11 @@
 
         void IUpdatableNode.SetParent(INode parent)
         {
-            this.parent.ChildNodes.RemoveNode(this);
+            if (this.parent != null)
+                this.parent.ChildNodes.RemoveNode(this);
+
             this.parent = parent;
+
             if (this.parent != null)
                 this.parent.ChildNodes.AddNode(this);
         }

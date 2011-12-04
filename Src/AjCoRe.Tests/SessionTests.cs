@@ -135,6 +135,63 @@ namespace AjCoRe.Tests
         }
 
         [TestMethod]
+        public void SetPropertiesAndCommit()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode root = session.Workspace.RootNode;
+
+            using (var tr = session.OpenTransaction())
+            {
+                session.SetPropertyValue(root, "Name", "Adam");
+                session.SetPropertyValue(root, "Age", 800);
+
+                tr.Complete();
+            }
+
+            Assert.AreEqual("Adam", root.Properties["Name"].Value);
+            Assert.AreEqual(800, root.Properties["Age"].Value);
+        }
+
+        [TestMethod]
+        public void SetPropertiesAndRollback()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode root = session.Workspace.RootNode;
+
+            using (var tr = session.OpenTransaction())
+            {
+                session.SetPropertyValue(root, "Name", "Adam");
+                session.SetPropertyValue(root, "Age", 800);
+            }
+
+            Assert.IsNull(root.Properties["Name"]);
+            Assert.IsNull(root.Properties["Age"]);
+        }
+
+        [TestMethod]
+        public void SetPropertiesCommitResetAndRollback()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode root = session.Workspace.RootNode;
+
+            using (var tr = session.OpenTransaction())
+            {
+                session.SetPropertyValue(root, "Name", "Adam");
+                session.SetPropertyValue(root, "Age", 800);
+                tr.Complete();
+            }
+
+            using (var tr = session.OpenTransaction())
+            {
+                session.SetPropertyValue(root, "Name", "Eve");
+                session.SetPropertyValue(root, "Age", 600);
+            }
+
+            Assert.AreEqual("Adam", root.Properties["Name"].Value);
+            Assert.AreEqual(800, root.Properties["Age"].Value);
+        }
+
+        [TestMethod]
         public void CreateAndRemoveNode()
         {
             Session session = this.factory.OpenSession("ws1");
@@ -153,6 +210,57 @@ namespace AjCoRe.Tests
                 Assert.IsFalse(root.ChildNodes.Contains(node));
                 Assert.AreNotEqual(root, node.Parent);
             }
+        }
+
+        [TestMethod]
+        public void CreateRemoveNodeAndCommit()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode root = session.Workspace.RootNode;
+            INode node = null;
+
+            using (var tr = session.OpenTransaction())
+            {
+                node = session.CreateNode(root, "person1", new List<Property>()
+                {
+                    new Property("Name", "Adam"),
+                    new Property("Age", 800)
+                });
+
+                session.RemoveNode(node);
+
+                tr.Complete();
+            }
+
+            Assert.IsFalse(root.ChildNodes.Contains(node));
+            Assert.AreNotEqual(root, node.Parent);
+        }
+
+        [TestMethod]
+        public void CreateCommitRemoveNodeAndRollback()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode root = session.Workspace.RootNode;
+            INode node = null;
+
+            using (var tr = session.OpenTransaction())
+            {
+                node = session.CreateNode(root, "person1", new List<Property>()
+                {
+                    new Property("Name", "Adam"),
+                    new Property("Age", 800)
+                });
+
+                tr.Complete();
+            }
+
+            using (var tr = session.OpenTransaction())
+            {
+                session.RemoveNode(node);
+            }
+
+            Assert.IsTrue(root.ChildNodes.Contains(node));
+            Assert.AreEqual(root, node.Parent);
         }
     }
 }
