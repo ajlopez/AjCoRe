@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    public class Node : INode
+    public class Node : INode, IUpdatableNode
     {
         string name;
         PropertyList properties;
@@ -33,6 +33,14 @@
             this.properties = new PropertyList(properties);
             this.nodes = new NodeList();
 
+            if (this.parent != null)
+                this.parent.ChildNodes.AddNode(this);
+        }
+
+        void IUpdatableNode.SetParent(INode parent)
+        {
+            this.parent.ChildNodes.RemoveNode(this);
+            this.parent = parent;
             if (this.parent != null)
                 this.parent.ChildNodes.AddNode(this);
         }

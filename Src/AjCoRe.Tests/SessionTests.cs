@@ -77,6 +77,23 @@ namespace AjCoRe.Tests
             Assert.AreEqual("Adam", node.Properties["Name"].Value);
             Assert.AreEqual(800, node.Properties["Age"].Value);
         }
+
+        [TestMethod]
+        public void CreateAndRemoveNode()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode root = session.Workspace.RootNode;
+            INode node = session.CreateNode(root, "person1", new List<Property>()
+            {
+                new Property("Name", "Adam"),
+                new Property("Age", 800)
+            });
+
+            session.RemoveNode(node);
+
+            Assert.IsFalse(root.ChildNodes.Contains(node));
+            Assert.AreNotEqual(root, node.Parent);
+        }
     }
 }
 

@@ -20,7 +20,7 @@
 
         public INode RootNode { get { return this.root; } }
 
-        public INode CreateNode(INode parent, string name, IEnumerable<Property> properties)
+        INode INodeCreator.CreateNode(INode parent, string name, IEnumerable<Property> properties)
         {
             return new Node(parent, name, properties);
         }

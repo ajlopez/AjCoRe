@@ -25,6 +25,11 @@ namespace AjCoRe
         {
             return ((INodeCreator)this.workspace).CreateNode(parent, name, properties);
         }
+
+        public void RemoveNode(INode node)
+        {
+            ((IUpdatableNode)node).SetParent(null);
+        }
     }
 }
 

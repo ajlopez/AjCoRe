@@ -50,6 +50,7 @@
     <Compile Include="FileSystem\Workspace.cs" />
     <Compile Include="INode.cs" />
     <Compile Include="INodeCreator.cs" />
+    <Compile Include="IUpdatableNode.cs" />
     <Compile Include="IWorkspace.cs" />
     <Compile Include="NodeList.cs" />
     <Compile Include="Base\Node.cs" />

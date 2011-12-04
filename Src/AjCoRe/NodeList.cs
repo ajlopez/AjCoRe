@@ -44,5 +44,10 @@
 
             this.nodes.Add(node);
         }
+
+        internal void RemoveNode(INode node)
+        {
+            this.nodes.Remove(node);
+        }
     }
 }
