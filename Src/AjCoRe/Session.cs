@@ -23,7 +23,14 @@ namespace AjCoRe
             if (this.transaction == null)
                 throw new InvalidOperationException("No Transaction in Session");
 
+            Property property = node.Properties[propname];
+            object original = null;
+
+            if (property != null)
+                original = property.Value;
+
             node.Properties.SetPropertyValue(propname, value);
+            this.transaction.RegisterSetPropertyValue(node, propname, original, value);
         }
 
         public INode CreateNode(INode parent, string name, IEnumerable<Property> properties)
@@ -31,7 +38,11 @@ namespace AjCoRe
             if (this.transaction == null)
                 throw new InvalidOperationException("No Transaction in Session");
 
-            return ((INodeCreator)this.workspace).CreateNode(parent, name, properties);
+            INode node = ((INodeCreator)this.workspace).CreateNode(parent, name, properties);
+
+            this.transaction.RegisterCreateNode(parent, node);
+
+            return node;
         }
 
         public void RemoveNode(INode node)
@@ -39,7 +50,11 @@ namespace AjCoRe
             if (this.transaction == null)
                 throw new InvalidOperationException("No Transaction in Session");
 
+            INode parent = node.Parent;
+
             ((IUpdatableNode)node).SetParent(null);
+
+            this.transaction.RegisterRemoveNode(parent, node);
         }
 
         public Transaction OpenTransaction()

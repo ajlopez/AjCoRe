@@ -60,6 +60,10 @@
     <Compile Include="Base\Workspace.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionFactory.cs" />
+    <Compile Include="Transactions\CreateNodeOperation.cs" />
+    <Compile Include="Transactions\Operation.cs" />
+    <Compile Include="Transactions\RemoveNodeOperation.cs" />
+    <Compile Include="Transactions\SetPropertyValueOperation.cs" />
     <Compile Include="Transactions\Transaction.cs" />
     <Compile Include="WorkspaceRegistry.cs" />
   </ItemGroup>

@@ -91,6 +91,50 @@ namespace AjCoRe.Tests
         }
 
         [TestMethod]
+        public void CreateNodeAndCommit()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode root = session.Workspace.RootNode;
+            INode node = null;
+
+            using (var tr = session.OpenTransaction())
+            {
+                node = session.CreateNode(root, "person1", new List<Property>()
+                {
+                    new Property("Name", "Adam"),
+                    new Property("Age", 800)
+                });
+
+                tr.Complete();
+            }
+
+            Assert.IsTrue(root.ChildNodes.Contains(node));
+            Assert.AreEqual(root, node.Parent);
+            Assert.AreEqual("Adam", node.Properties["Name"].Value);
+            Assert.AreEqual(800, node.Properties["Age"].Value);
+        }
+
+        [TestMethod]
+        public void CreateNodeAndRollback()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode root = session.Workspace.RootNode;
+            INode node = null;
+
+            using (var tr = session.OpenTransaction())
+            {
+                node = session.CreateNode(root, "person1", new List<Property>()
+                {
+                    new Property("Name", "Adam"),
+                    new Property("Age", 800)
+                });
+            }
+
+            Assert.IsFalse(root.ChildNodes.Contains(node));
+            Assert.IsNull(node.Parent);
+        }
+
+        [TestMethod]
         public void CreateAndRemoveNode()
         {
             Session session = this.factory.OpenSession("ws1");
