@@ -19,5 +19,10 @@
             this.name = name;
             this.value = value;
         }
+
+        internal void SetValue(object value)
+        {
+            this.value = value;
+        }
     }
 }

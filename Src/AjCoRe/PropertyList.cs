@@ -34,5 +34,27 @@
         {
             return this.properties.GetEnumerator();
         }
+
+        internal void SetPropertyValue(string name, object value)
+        {
+            Property property = this[name];
+
+            if (property == null)
+            {
+                if (value == null)
+                    return;
+
+                property = new Property(name, value);
+                this.properties.Add(property);
+            }
+            else if (value == null)
+            {
+                this.properties.Remove(property);
+            }
+            else
+            {
+                property.SetValue(value);
+            }
+        }
     }
 }

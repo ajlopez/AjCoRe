@@ -15,6 +15,11 @@ namespace AjCoRe
         }
 
         public IWorkspace Workspace { get { return this.workspace; } }
+
+        public void SetPropertyValue(INode node, string propname, object value)
+        {
+            node.Properties.SetPropertyValue(propname, value);
+        }
     }
 }
 

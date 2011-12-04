@@ -40,6 +40,26 @@ namespace AjCoRe.Tests
             Assert.IsNotNull(session.Workspace);
             Assert.AreEqual(this.workspace, session.Workspace);
         }
+
+        [TestMethod]
+        public void SetPropertyValue()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode node = session.Workspace.RootNode;
+            session.SetPropertyValue(node, "Name", "Adam");
+
+            Assert.AreEqual("Adam", node.Properties["Name"].Value);
+        }
+
+        [TestMethod]
+        public void SetAndRemoveProperty()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode node = session.Workspace.RootNode;
+            session.SetPropertyValue(node, "Name", "Adam");
+            session.SetPropertyValue(node, "Name", null);
+            Assert.IsNull(node.Properties["Name"]);
+        }
     }
 }
 
