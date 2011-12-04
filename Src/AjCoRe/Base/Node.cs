@@ -20,12 +20,12 @@
 
         public NodeList ChildNodes { get { return this.nodes; } }
 
-        public Node(IEnumerable<Property> properties)
+        internal Node(IEnumerable<Property> properties)
             : this(null, string.Empty, properties)
         {
         }
 
-        public Node(INode parent, string name, IEnumerable<Property> properties)
+        internal Node(INode parent, string name, IEnumerable<Property> properties)
         {
             this.parent = parent;
             this.name = name;

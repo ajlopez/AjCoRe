@@ -10,11 +10,21 @@ namespace AjCoRe.Tests.Base
     [TestClass]
     public class NodeTests
     {
+        private IWorkspace workspace;
+        private Session session;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            this.workspace = new Workspace("ws1", null);
+            this.session = new Session(this.workspace);
+        }
+
         [TestMethod]
         public void CreateNode()
         {
-            Node root = new Node(null);
-            Node node = new Node(root, "person", new List<Property>()
+            INode root = this.workspace.RootNode;
+            INode node = this.session.CreateNode(root, "person", new List<Property>()
             {
                 new Property("Name", "Adam"),
                 new Property("Age", 800)
@@ -32,8 +42,8 @@ namespace AjCoRe.Tests.Base
         [TestMethod]
         public void GetProperty()
         {
-            Node root = new Node(null);
-            Node node = new Node(root, "person", new List<Property>()
+            INode root = this.workspace.RootNode;
+            INode node = this.session.CreateNode(root, "person", new List<Property>()
             {
                 new Property("Name", "Adam"),
                 new Property("Age", 800)
@@ -48,22 +58,22 @@ namespace AjCoRe.Tests.Base
         [TestMethod]
         public void CreateRootNode()
         {
-            Node node = new Node(new List<Property>()
+            Workspace workspace = new Workspace("ws2", new List<Property>()
             {
                 new Property("Name", "Eve"),
                 new Property("Age", 600)
             });
 
-            Assert.IsNull(node.Parent);
-            Assert.AreEqual(string.Empty, node.Name);
+            Assert.IsNull(workspace.RootNode.Parent);
+            Assert.AreEqual(string.Empty, workspace.RootNode.Name);
         }
 
         [TestMethod]
         public void GetChildNodes()
         {
-            Node root = new Node(null);
-            Node node1 = new Node(root, "person1", null);
-            Node node2 = new Node(root, "person2", null);
+            INode root = this.workspace.RootNode;
+            INode node1 = session.CreateNode(root, "person1", null);
+            INode node2 = session.CreateNode(root, "person2", null);
 
             Assert.IsTrue(root.ChildNodes.Contains(node1));
             Assert.IsTrue(root.ChildNodes.Contains(node2));

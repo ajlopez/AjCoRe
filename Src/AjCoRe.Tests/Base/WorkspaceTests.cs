@@ -13,10 +13,9 @@ namespace AjCoRe.Tests.Base
         [TestMethod]
         public void CreateWorkspaceWithRootNode()
         {
-            Node root = new Node(null);
-            Workspace workspace = new Workspace("repository", root);
+            Workspace workspace = new Workspace("repository", null);
 
-            Assert.AreEqual(root, workspace.RootNode);
+            Assert.IsNotNull(workspace.RootNode);
             Assert.AreEqual("repository", workspace.Name);
         }
     }

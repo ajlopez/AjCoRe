@@ -10,10 +10,10 @@
         private string name;
         private INode root;
 
-        public Workspace(string name, INode root)
+        public Workspace(string name, IEnumerable<Property> rootproperties)
         {
             this.name = name;
-            this.root = root;
+            this.root = ((INodeCreator) this).CreateNode(null, string.Empty, rootproperties);
         }
 
         public string Name { get { return this.name; } }

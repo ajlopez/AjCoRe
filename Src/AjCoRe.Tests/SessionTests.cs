@@ -17,7 +17,7 @@ namespace AjCoRe.Tests
         [TestInitialize]
         public void Setup()
         {
-            this.workspace = new Workspace("ws1", new Node(null));
+            this.workspace = new Workspace("ws1", null);
             this.registry = new WorkspaceRegistry();
             this.registry.RegisterWorkspace(this.workspace);
             this.factory = new SessionFactory(this.registry);

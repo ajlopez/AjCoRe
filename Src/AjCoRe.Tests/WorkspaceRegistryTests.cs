@@ -14,8 +14,7 @@ namespace AjCoRe.Tests
         public void RegisterAndRetrieveWorkspace()
         {
             WorkspaceRegistry registry = new WorkspaceRegistry();
-            INode root = new Node(null);
-            IWorkspace workspace = new Workspace("ws1", root);
+            IWorkspace workspace = new Workspace("ws1", null);
             registry.RegisterWorkspace(workspace);
 
             Assert.IsNotNull(registry.Workspaces);
