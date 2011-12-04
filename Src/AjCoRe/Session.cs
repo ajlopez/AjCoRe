@@ -20,6 +20,11 @@ namespace AjCoRe
         {
             node.Properties.SetPropertyValue(propname, value);
         }
+
+        public INode CreateNode(INode parent, string name, IEnumerable<Property> properties)
+        {
+            return ((INodeCreator)this.workspace).CreateNode(parent, name, properties);
+        }
     }
 }
 

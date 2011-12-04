@@ -25,7 +25,7 @@
         {
         }
 
-        public Node(Node parent, string name, IEnumerable<Property> properties)
+        public Node(INode parent, string name, IEnumerable<Property> properties)
         {
             this.parent = parent;
             this.name = name;

@@ -60,6 +60,23 @@ namespace AjCoRe.Tests
             session.SetPropertyValue(node, "Name", null);
             Assert.IsNull(node.Properties["Name"]);
         }
+
+        [TestMethod]
+        public void CreateNode()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode root = session.Workspace.RootNode;
+            INode node = session.CreateNode(root, "person1", new List<Property>()
+            {
+                new Property("Name", "Adam"),
+                new Property("Age", 800)
+            });
+
+            Assert.IsTrue(root.ChildNodes.Contains(node));
+            Assert.AreEqual(root, node.Parent);
+            Assert.AreEqual("Adam", node.Properties["Name"].Value);
+            Assert.AreEqual(800, node.Properties["Age"].Value);
+        }
     }
 }
 
