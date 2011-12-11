@@ -4,16 +4,25 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using AjCoRe.Stores;
 
     public class Workspace : IWorkspace, INodeCreator
     {
         private string name;
         private INode root;
+        private IStore store;
 
         public Workspace(string name, IEnumerable<Property> rootproperties)
         {
             this.name = name;
             this.root = ((INodeCreator) this).CreateNode(null, string.Empty, rootproperties);
+        }
+
+        public Workspace(IStore store, string name)
+        {
+            this.name = name;
+            this.store = store;
+            this.root = ((INodeCreator)this).CreateNode(null, string.Empty, store.LoadProperties("/"));
         }
 
         public string Name { get { return this.name; } }
@@ -22,7 +31,7 @@
 
         INode INodeCreator.CreateNode(INode parent, string name, IEnumerable<Property> properties)
         {
-            return new Node(parent, name, properties);
+            return new Node(parent, name, properties, this.store);
         }
     }
 }

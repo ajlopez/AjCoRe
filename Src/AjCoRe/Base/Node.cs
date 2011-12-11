@@ -4,13 +4,35 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using AjCoRe.Stores;
 
     public class Node : INode, IUpdatableNode
     {
-        string name;
-        PropertyList properties;
-        NodeList nodes;
-        INode parent;
+        private string name;
+        private PropertyList properties;
+        private NodeList nodes;
+        private INode parent;
+        private IStore store;
+
+        internal Node(IEnumerable<Property> properties)
+            : this(null, string.Empty, properties, null)
+        {
+        }
+
+        internal Node(INode parent, string name, IEnumerable<Property> properties, IStore store)
+        {
+            this.parent = parent;
+            this.name = name;
+            this.store = store;
+
+            this.properties = new PropertyList(properties);
+
+            if (store == null)
+                this.nodes = new NodeList();
+
+            if (this.parent != null)
+                this.parent.ChildNodes.AddNode(this);
+        }
 
         public string Name { get { return this.name; } }
 
@@ -18,7 +40,22 @@
 
         public PropertyList Properties { get { return this.properties; } }
 
-        public NodeList ChildNodes { get { return this.nodes; } }
+        public NodeList ChildNodes
+        {
+            get
+            {
+                if (this.nodes == null && this.store != null)
+                {
+                    this.nodes = new NodeList();
+                    string path = this.Path;
+
+                    foreach (var name in this.store.GetChildNames(this.Path))
+                        new Node(this, name, this.store.LoadProperties(path + "/" + name), this.store);
+                }
+
+                return this.nodes;
+            }
+        }
 
         public string Path
         {
@@ -30,23 +67,6 @@
                     return "/" + this.name;
                 return this.parent.Path + "/" + this.name;
             }
-        }
-
-        internal Node(IEnumerable<Property> properties)
-            : this(null, string.Empty, properties)
-        {
-        }
-
-        internal Node(INode parent, string name, IEnumerable<Property> properties)
-        {
-            this.parent = parent;
-            this.name = name;
-
-            this.properties = new PropertyList(properties);
-            this.nodes = new NodeList();
-
-            if (this.parent != null)
-                this.parent.ChildNodes.AddNode(this);
         }
 
         void IUpdatableNode.SetParent(INode parent)

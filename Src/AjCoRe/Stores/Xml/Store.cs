@@ -7,7 +7,7 @@
     using System.Xml;
     using System.IO;
 
-    public class Store
+    public class Store : IStore
     {
         private string rootpath;
 
@@ -53,9 +53,13 @@
         public PropertyList LoadProperties(string path)
         {
             string filename = GetFileNameFromPath(path);
-            XmlReader reader = XmlReader.Create(filename);
+
+            if (!File.Exists(filename))
+                return new PropertyList(null);
 
             IList<Property> properties = new List<Property>();
+
+            XmlReader reader = XmlReader.Create(filename);
 
             bool started = false;
 

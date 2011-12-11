@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AjCoRe.Stores.Xml;
 using System.IO;
+using AjCoRe.Base;
 
 namespace AjCoRe.Tests.Stores.Xml
 {
@@ -102,6 +103,37 @@ namespace AjCoRe.Tests.Stores.Xml
             Assert.IsNotNull(properties);
             Assert.IsNotNull(properties["Name"]);
             Assert.AreEqual("Root", properties["Name"].Value);
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files/XmlFileSystem", "xmlfs")]
+        public void BuildWorkspaceAndGetRootNode()
+        {
+            Store store = new Store("xmlfs");
+            Workspace workspace = new Workspace(store, "ws");
+
+            Assert.IsNotNull(workspace.RootNode);
+            Assert.AreEqual("Root", workspace.RootNode.Properties["Name"].Value);
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files/XmlFileSystem", "xmlfs")]
+        public void BuildWorkspaceAndGetFatherAndChildren()
+        {
+            Store store = new Store("xmlfs");
+            Workspace workspace = new Workspace(store, "ws");
+
+            var father = workspace.RootNode.ChildNodes["father"];
+
+            Assert.IsNotNull(father);
+
+            var child1 = father.ChildNodes["child1"];
+            var child2 = father.ChildNodes["child2"];
+            var child3 = father.ChildNodes["child3"];
+
+            Assert.IsNotNull(child1);
+            Assert.IsNotNull(child2);
+            Assert.IsNotNull(child3);
         }
     }
 }
