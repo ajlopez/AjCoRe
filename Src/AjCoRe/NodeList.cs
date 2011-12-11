@@ -17,6 +17,9 @@
         {
             get
             {
+                if (this.nodes == null)
+                    return null;
+
                 return this.nodes.Where(n => n.Name == name).SingleOrDefault();
             }
         }

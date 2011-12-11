@@ -31,6 +31,9 @@
 
         INode INodeCreator.CreateNode(INode parent, string name, IEnumerable<Property> properties)
         {
+            if (parent != null && parent.ChildNodes[name] != null)
+                throw new InvalidOperationException("Duplicated Child Node Name");
+
             return new Node(parent, name, properties, this.store);
         }
     }

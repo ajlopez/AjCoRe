@@ -44,6 +44,27 @@ namespace AjCoRe.Tests.Base
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void RaiseIfDuplicatedNameInChildNodes()
+        {
+            INode root = this.workspace.RootNode;
+
+            using (var tr = this.session.OpenTransaction())
+            {
+                this.session.CreateNode(root, "person", new List<Property>()
+                    {
+                        new Property("Name", "Adam"),
+                        new Property("Age", 800)
+                    });
+                this.session.CreateNode(root, "person", new List<Property>()
+                    {
+                        new Property("Name", "Adam"),
+                        new Property("Age", 800)
+                    });
+            }
+        }
+
+        [TestMethod]
         public void GetProperty()
         {
             INode root = this.workspace.RootNode;
