@@ -115,9 +115,36 @@
             return new PropertyList(properties);
         }
 
+        public IEnumerable<string> GetChildNames(string path)
+        {
+            IList<string> names = new List<string>();
+            string dirname = GetDirectoryNameFromPath(path);
+
+            if (!Directory.Exists(dirname))
+                return names;
+
+            DirectoryInfo di = new DirectoryInfo(dirname);
+
+            foreach (FileInfo fi in di.GetFiles("*.xml"))
+                names.Add(fi.Name.Substring(0, fi.Name.Length - 4));
+
+            return names;
+        }
+
         private string GetFileNameFromPath(string path)
         {
-            return Path.Combine(rootpath, path.Substring(1)) + ".xml";
+            string subpath = path.Substring(1);
+            if (subpath == String.Empty)
+                subpath = "_";
+
+            subpath += ".xml";
+
+            return Path.Combine(rootpath, subpath);
+        }
+
+        private string GetDirectoryNameFromPath(string path)
+        {
+            return Path.Combine(rootpath, path.Substring(1));
         }
     }
 }

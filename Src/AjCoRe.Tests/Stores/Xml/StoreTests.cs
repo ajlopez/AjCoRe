@@ -77,5 +77,31 @@ namespace AjCoRe.Tests.Stores.Xml
             Assert.AreEqual((double)10.2, props["Height"].Value);
             Assert.AreEqual((decimal)200.50, props["Salary"].Value);
         }
+
+        [TestMethod]
+        [DeploymentItem("Files/XmlFileSystem", "xmlfs")]
+        public void GetChildNames()
+        {
+            Store store = new Store("xmlfs");
+            var names = store.GetChildNames("/father");
+
+            Assert.IsNotNull(names);
+            Assert.AreEqual(3, names.Count());
+            Assert.IsTrue(names.Contains("child1"));
+            Assert.IsTrue(names.Contains("child2"));
+            Assert.IsTrue(names.Contains("child3"));
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files/XmlFileSystem", "xmlfs")]
+        public void GetRootProperties()
+        {
+            Store store = new Store("xmlfs");
+            var properties = store.LoadProperties("/");
+
+            Assert.IsNotNull(properties);
+            Assert.IsNotNull(properties["Name"]);
+            Assert.AreEqual("Root", properties["Name"].Value);
+        }
     }
 }

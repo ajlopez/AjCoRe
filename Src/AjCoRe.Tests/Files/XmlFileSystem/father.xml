@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Properties>
+  <Name>Father</Name>
+  <Age type="int">600</Age>
+  <Male type="bool">false</Male>
+  <Hired type="datetime">2000-01-01T00:00:00</Hired>
+  <Height type="double">10.2</Height>
+  <Salary type="decimal">200.5</Salary>
+</Properties>
