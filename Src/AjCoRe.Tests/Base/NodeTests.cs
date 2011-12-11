@@ -65,6 +65,22 @@ namespace AjCoRe.Tests.Base
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void RaiseIfEmptyNameInNode()
+        {
+            INode root = this.workspace.RootNode;
+
+            using (var tr = this.session.OpenTransaction())
+            {
+                this.session.CreateNode(root, string.Empty, new List<Property>()
+                    {
+                        new Property("Name", "Adam"),
+                        new Property("Age", 800)
+                    });
+            }
+        }
+
+        [TestMethod]
         public void GetProperty()
         {
             INode root = this.workspace.RootNode;

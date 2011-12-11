@@ -21,6 +21,12 @@
 
         internal Node(INode parent, string name, IEnumerable<Property> properties, IStore store)
         {
+            if (parent != null && name == String.Empty)
+                throw new InvalidOperationException("Child Node Name cannot be Empty");
+
+            if (name == null)
+                throw new InvalidOperationException("Node Name cannot be Null");
+
             this.parent = parent;
             this.name = name;
             this.store = store;
