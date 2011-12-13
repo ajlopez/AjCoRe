@@ -19,6 +19,12 @@
         public void SaveProperties(string path, PropertyList properties)
         {
             string filename = GetFileNameFromPath(path);
+
+            FileInfo fi = new FileInfo(filename);
+
+            if (!fi.Directory.Exists)
+                fi.Directory.Create();
+
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             XmlWriter writer = XmlWriter.Create(filename, settings);

@@ -106,5 +106,49 @@ namespace AjCoRe.Tests.Stores.Xml
                 Assert.AreEqual(k, store.LoadProperties("/node" + k)["Value"].Value);
             }
         }
+
+        [TestMethod]
+        [DeploymentItem("Files/XmlFileSystem", "xmlfs5")]
+        public void CreateNodesAndSubnodes()
+        {
+            Store store = new Store("xmlfs5");
+            Workspace workspace = new Workspace(store, "ws");
+            Session session = new Session(workspace);
+
+            INode root = session.Workspace.RootNode;
+
+            using (var tr = session.OpenTransaction())
+            {
+                for (int k = 1; k <= 10; k++)
+                {
+                    INode node = session.CreateNode(root, "node" + k, new Property[] {
+                        new Property("Value", k)
+                    });
+
+                    for (int j = 1; j <= 10; j++)
+                        session.CreateNode(node, "subnode" + j, new Property[] {
+                            new Property("ParentValue", k),
+                            new Property("Value", j)
+                        });
+                }
+
+                tr.Complete();
+            }
+
+            for (int k = 1; k <= 10; k++)
+            {
+                Assert.IsTrue(File.Exists("xmlfs5/node" + k + ".xml"));
+                Assert.AreEqual(k, store.LoadProperties("/node" + k)["Value"].Value);
+
+                for (int j = 1; j <= 10; j++)
+                {
+                    Assert.IsTrue(File.Exists("xmlfs5/node" + k + "/subnode" + j + ".xml"));
+                    var properties = store.LoadProperties("/node" + k + "/subnode" + j);
+
+                    Assert.AreEqual(k, properties["ParentValue"].Value);
+                    Assert.AreEqual(j, properties["Value"].Value);
+                }
+            }
+        }
     }
 }
