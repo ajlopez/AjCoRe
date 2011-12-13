@@ -29,8 +29,13 @@
                 var nodestoupdate = this.operations.Where(op => !(op is RemoveNodeOperation)).Select(op => op.Node).Distinct();
                 var nodestodelete = this.operations.Where(op => op is RemoveNodeOperation).Select(op => op.Node).Distinct();
 
+                nodestoupdate = nodestoupdate.Except(nodestodelete);
+
                 foreach (var node in nodestoupdate)
                     this.store.SaveProperties(node.Path, node.Properties);
+
+                foreach (var node in nodestodelete)
+                    this.store.RemoveNode(node.Path);
             }
 
             foreach (Operation operation in this.operations)

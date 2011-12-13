@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,30 @@ namespace AjCoRe.Tests.Stores.Xml
 
             PropertyList properties = store.LoadProperties("/");
             Assert.AreEqual("Root", properties["Name"].Value);
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files/XmlFileSystem", "xmlfs3")]
+        public void RemoveExistingNode()
+        {
+            Store store = new Store("xmlfs3");
+            Workspace workspace = new Workspace(store, "ws");
+            Session session = new Session(workspace);
+
+            INode node = session.Workspace.RootNode;
+
+            Assert.IsTrue(Directory.Exists("xmlfs3/father"));
+            Assert.IsTrue(File.Exists("xmlfs3/father.xml"));
+
+            using (var tr = session.OpenTransaction())
+            {
+                session.RemoveNode(node.ChildNodes["father"]);
+
+                tr.Complete();
+            }
+
+            Assert.IsFalse(Directory.Exists("xmlfs3/father"));
+            Assert.IsFalse(File.Exists("xmlfs3/father.xml"));
         }
     }
 }
