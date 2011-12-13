@@ -25,8 +25,13 @@
         public void Complete()
         {
             if (this.store != null)
-                foreach (Operation operation in this.operations.Where(op => !(op is RemoveNodeOperation)))
-                    this.store.SaveProperties(operation.Node.Path, operation.Node.Properties);
+            {
+                var nodestoupdate = this.operations.Where(op => !(op is RemoveNodeOperation)).Select(op => op.Node).Distinct();
+                var nodestodelete = this.operations.Where(op => op is RemoveNodeOperation).Select(op => op.Node).Distinct();
+
+                foreach (var node in nodestoupdate)
+                    this.store.SaveProperties(node.Path, node.Properties);
+            }
 
             foreach (Operation operation in this.operations)
                 operation.Commit();
