@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStorable.cs" />
     <Compile Include="FileSystem\FileNode.cs" />
     <Compile Include="FileSystem\DirectoryNode.cs" />
     <Compile Include="FileSystem\Workspace.cs" />

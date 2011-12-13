@@ -6,7 +6,7 @@
     using System.Text;
     using AjCoRe.Stores;
 
-    public class Workspace : IWorkspace, INodeCreator
+    public class Workspace : IWorkspace, INodeCreator, IStorable
     {
         private string name;
         private INode root;
@@ -28,6 +28,8 @@
         public string Name { get { return this.name; } }
 
         public INode RootNode { get { return this.root; } }
+
+        IStore IStorable.Store { get { return this.store; } }
 
         INode INodeCreator.CreateNode(INode parent, string name, IEnumerable<Property> properties)
         {

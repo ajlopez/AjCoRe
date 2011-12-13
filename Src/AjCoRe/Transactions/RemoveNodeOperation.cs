@@ -16,6 +16,8 @@ namespace AjCoRe.Transactions
             this.node = node;
         }
 
+        internal override INode Node { get { return this.node; } }
+
         override internal void Commit()
         {
         }

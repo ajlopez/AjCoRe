@@ -116,6 +116,8 @@
                 }
             }
 
+            reader.Close();
+
             return new PropertyList(properties);
         }
 

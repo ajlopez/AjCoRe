@@ -20,6 +20,10 @@ namespace AjCoRe.Transactions
             this.newvalue = newvalue;
         }
 
+        internal override INode Node { get { return this.node; } }
+
+        internal string PropertyName { get { return this.name; } }
+
         override internal void Commit()
         {
         }

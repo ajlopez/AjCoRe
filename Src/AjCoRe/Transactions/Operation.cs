@@ -7,6 +7,7 @@ namespace AjCoRe.Transactions
 {
     abstract class Operation
     {
+        internal abstract INode Node { get; }
         internal abstract void Commit();
         internal abstract void Rollback();
     }

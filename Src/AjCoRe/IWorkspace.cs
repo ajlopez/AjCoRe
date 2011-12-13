@@ -1,6 +1,7 @@
 ﻿namespace AjCoRe
 {
     using System;
+    using AjCoRe.Stores;
 
     public interface IWorkspace
     {

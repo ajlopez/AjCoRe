@@ -4,21 +4,30 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using AjCoRe.Stores;
 
     public class Transaction : IDisposable
     {
         private Session session;
+        private IStore store;
         private IList<Operation> operations = new List<Operation>();
 
         public Transaction(Session session)
         {
             this.session = session;
+
+            if (session.Workspace is IStorable)
+                this.store = ((IStorable)session.Workspace).Store;
         }
 
         public Session Session { get { return this.session; } }
 
         public void Complete()
         {
+            if (this.store != null)
+                foreach (Operation operation in this.operations.Where(op => !(op is RemoveNodeOperation)))
+                    this.store.SaveProperties(operation.Node.Path, operation.Node.Properties);
+
             foreach (Operation operation in this.operations)
                 operation.Commit();
 
