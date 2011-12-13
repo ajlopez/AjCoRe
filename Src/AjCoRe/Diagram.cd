@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AjCoRe.Property">
+    <Position X="3.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAQAAAAEACAAAAAgAAAAAAA=</HashCode>
+      <FileName>Property.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="AjCoRe.INode">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAQAQAAAAAAAAAAACAAAACAAA=</HashCode>
+      <FileName>INode.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ChildNodes" />
+      <Property Name="Properties" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="AjCoRe.IWorkspace">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IWorkspace.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RootNode" />
+    </ShowAsAssociation>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
