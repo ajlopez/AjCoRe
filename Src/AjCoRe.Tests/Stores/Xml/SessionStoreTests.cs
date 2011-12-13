@@ -79,5 +79,32 @@ namespace AjCoRe.Tests.Stores.Xml
             Assert.IsFalse(Directory.Exists("xmlfs3/father"));
             Assert.IsFalse(File.Exists("xmlfs3/father.xml"));
         }
+
+        [TestMethod]
+        [DeploymentItem("Files/XmlFileSystem", "xmlfs4")]
+        public void CreateNodes()
+        {
+            Store store = new Store("xmlfs4");
+            Workspace workspace = new Workspace(store, "ws");
+            Session session = new Session(workspace);
+
+            INode root = session.Workspace.RootNode;
+
+            using (var tr = session.OpenTransaction())
+            {
+                for (int k = 1; k <= 10; k++)
+                    session.CreateNode(root, "node" + k, new Property[] {
+                        new Property("Value", k)
+                    });
+
+                tr.Complete();
+            }
+
+            for (int k = 1; k <= 10; k++)
+            {
+                Assert.IsTrue(File.Exists("xmlfs4/node" + k + ".xml"));
+                Assert.AreEqual(k, store.LoadProperties("/node" + k)["Value"].Value);
+            }
+        }
     }
 }
