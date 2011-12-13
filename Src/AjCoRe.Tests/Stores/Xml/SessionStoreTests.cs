@@ -150,5 +150,45 @@ namespace AjCoRe.Tests.Stores.Xml
                 }
             }
         }
+
+        [TestMethod]
+        [DeploymentItem("Files/XmlFileSystem", "xmlfs6")]
+        public void CreateNodesAndSubnodesRemoveNodes()
+        {
+            Store store = new Store("xmlfs6");
+            Workspace workspace = new Workspace(store, "ws");
+            Session session = new Session(workspace);
+
+            INode root = session.Workspace.RootNode;
+
+            using (var tr = session.OpenTransaction())
+            {
+                for (int k = 1; k <= 10; k++)
+                {
+                    INode node = session.CreateNode(root, "node" + k, new Property[] {
+                        new Property("Value", k)
+                    });
+
+                    for (int j = 1; j <= 10; j++)
+                        session.CreateNode(node, "subnode" + j, new Property[] {
+                            new Property("ParentValue", k),
+                            new Property("Value", j)
+                        });
+                }
+
+                tr.Complete();
+            }
+
+            using (var tr = session.OpenTransaction())
+            {
+                for (int k = 1; k <= 10; k++)
+                    session.RemoveNode(root.ChildNodes["node" + k]);
+
+                tr.Complete();
+            }
+
+            for (int k = 1; k <= 10; k++)
+                Assert.IsFalse(File.Exists("xmlfs6/node" + k + ".xml"));
+        }
     }
 }
