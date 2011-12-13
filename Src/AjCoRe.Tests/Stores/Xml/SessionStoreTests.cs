@@ -33,5 +33,26 @@ namespace AjCoRe.Tests.Stores.Xml
             PropertyList properties = store.LoadProperties("/");
             Assert.AreEqual("Adam", properties["Name"].Value);
         }
+
+        [TestMethod]
+        [DeploymentItem("Files/XmlFileSystem", "xmlfs2")]
+        public void SetPropertyValueAndRollback()
+        {
+            Store store = new Store("xmlfs2");
+            Workspace workspace = new Workspace(store, "ws");
+            Session session = new Session(workspace);
+
+            INode node = session.Workspace.RootNode;
+
+            using (var tr = session.OpenTransaction())
+            {
+                session.SetPropertyValue(node, "Name", "Adam");
+
+                Assert.AreEqual("Adam", node.Properties["Name"].Value);
+            }
+
+            PropertyList properties = store.LoadProperties("/");
+            Assert.AreEqual("Root", properties["Name"].Value);
+        }
     }
 }
