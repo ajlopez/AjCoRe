@@ -137,6 +137,18 @@
             return names;
         }
 
+        public void RemoveNode(string path)
+        {
+            string filename = GetFileNameFromPath(path);
+            string dirname = GetDirectoryNameFromPath(path);
+
+            if (File.Exists(filename))
+                File.Delete(filename);
+
+            if (Directory.Exists(dirname))
+                Directory.Delete(dirname, true);
+        }
+
         private string GetFileNameFromPath(string path)
         {
             string subpath = path.Substring(1);

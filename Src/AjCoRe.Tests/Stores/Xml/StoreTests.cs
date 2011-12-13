@@ -94,6 +94,21 @@ namespace AjCoRe.Tests.Stores.Xml
         }
 
         [TestMethod]
+        [DeploymentItem("Files/XmlFileSystem", "xmlfs2")]
+        public void GetRemoveExistingNode()
+        {
+            Store store = new Store("xmlfs2");
+            
+            Assert.IsTrue(Directory.Exists("xmlfs2/father"));
+            Assert.IsTrue(File.Exists("xmlfs2/father.xml"));
+
+            store.RemoveNode("/father");
+
+            Assert.IsFalse(Directory.Exists("xmlfs2/father"));
+            Assert.IsFalse(File.Exists("xmlfs2/father.xml"));
+        }
+
+        [TestMethod]
         [DeploymentItem("Files/XmlFileSystem", "xmlfs")]
         public void GetRootProperties()
         {

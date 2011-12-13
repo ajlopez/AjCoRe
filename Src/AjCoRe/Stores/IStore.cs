@@ -10,5 +10,7 @@
         PropertyList LoadProperties(string path);
 
         void SaveProperties(string path, PropertyList properties);
+
+        void RemoveNode(string path);
     }
 }
