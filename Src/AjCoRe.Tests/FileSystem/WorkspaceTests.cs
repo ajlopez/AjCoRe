@@ -66,6 +66,7 @@ namespace AjCoRe.Tests.FileSystem
             INode file = root.ChildNodes["TextFile1.txt"];
             FileInfo info = new FileInfo("fs/TextFile1.txt");
 
+            Assert.IsNull(file.Id);
             Assert.AreEqual(info.Extension, file.Properties["Extension"].Value);
             Assert.AreEqual(info.FullName, file.Properties["FullName"].Value);
             Assert.AreEqual(info.Name, file.Properties["Name"].Value);
@@ -84,6 +85,7 @@ namespace AjCoRe.Tests.FileSystem
             Workspace workspace = new Workspace("fs", "fs");
             INode root = workspace.RootNode;
 
+            Assert.IsNull(root.Id);
             Assert.IsNotNull(root.ChildNodes["Subfolder1"]);
             Assert.IsNotNull(root.ChildNodes["Subfolder2"]);
         }

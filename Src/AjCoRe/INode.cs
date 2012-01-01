@@ -4,6 +4,8 @@
 
     public interface INode
     {
+        Guid? Id { get; }
+
         string Name { get; }
 
         INode Parent { get; }

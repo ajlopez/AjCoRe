@@ -38,6 +38,8 @@
             });
         }
 
+        public Guid? Id { get { return null; } }
+
         public string Name { get { return this.name; } }
 
         public INode Parent { get { return this.parent; } }

@@ -8,6 +8,7 @@
 
     public class Node : INode, IUpdatableNode
     {
+        private Guid? id;
         private string name;
         private PropertyList properties;
         private NodeList nodes;
@@ -31,7 +32,21 @@
             this.name = name;
             this.store = store;
 
-            this.properties = new PropertyList(properties);
+            if (properties != null)
+            {
+                this.properties = new PropertyList(properties.Where(p => !p.Name.StartsWith("_")));
+                Property propertyId = properties.Where(p => p.Name == "_Id").SingleOrDefault();
+
+                if (propertyId != null)
+                    this.id = (Guid)propertyId.Value;
+                else
+                    this.id = new Guid?();
+            }
+            else
+            {
+                this.properties = new PropertyList(null);
+                this.id = new Guid?();
+            }
 
             if (store == null)
                 this.nodes = new NodeList();
@@ -39,6 +54,8 @@
             if (this.parent != null)
                 this.parent.ChildNodes.AddNode(this);
         }
+
+        public Guid? Id { get { return this.id; } }
 
         public string Name { get { return this.name; } }
 
