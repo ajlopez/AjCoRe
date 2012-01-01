@@ -72,6 +72,9 @@
                     this.nodes = new NodeList();
                     string path = this.Path;
 
+                    if (path == "/")
+                        path = string.Empty;
+
                     foreach (var name in this.store.GetChildNames(this.Path))
                         new Node(this, name, this.store.LoadProperties(path + "/" + name), this.store);
                 }

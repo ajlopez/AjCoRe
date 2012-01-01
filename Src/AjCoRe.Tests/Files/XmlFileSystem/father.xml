@@ -6,4 +6,5 @@
   <Hired type="datetime">2000-01-01T00:00:00</Hired>
   <Height type="double">10.2</Height>
   <Salary type="decimal">200.5</Salary>
+  <_Id type="guid">{42DB2811-074C-4b63-A242-ED827844FCAA}</_Id>
 </Properties>

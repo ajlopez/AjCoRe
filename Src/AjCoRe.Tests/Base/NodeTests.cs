@@ -44,6 +44,33 @@ namespace AjCoRe.Tests.Base
         }
 
         [TestMethod]
+        public void CreateNodeWithSpecialPropertyId()
+        {
+            INode root = this.workspace.RootNode;
+            Guid guid = new Guid();
+
+            using (var tr = this.session.OpenTransaction())
+            {
+                INode node = this.session.CreateNode(root, "person", new List<Property>()
+                    {
+                        new Property("_Id", guid),
+                        new Property("Name", "Adam"),
+                        new Property("Age", 800)
+                    });
+
+                Assert.AreEqual(root, node.Parent);
+                Assert.AreEqual(guid, node.Id);
+                Assert.AreEqual("person", node.Name);
+                Assert.IsNotNull(node.Properties);
+                Assert.IsNull(node.Properties.Where(p => p.Name == "_Id").SingleOrDefault());
+                Assert.IsNotNull(node.Properties.Where(p => p.Name == "Name").SingleOrDefault());
+                Assert.AreEqual("Adam", node.Properties.Where(p => p.Name == "Name").SingleOrDefault().Value);
+                Assert.IsNotNull(node.Properties.Where(p => p.Name == "Age").SingleOrDefault());
+                Assert.AreEqual(800, node.Properties.Where(p => p.Name == "Age").SingleOrDefault().Value);
+            }
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void RaiseIfDuplicatedNameInChildNodes()
         {

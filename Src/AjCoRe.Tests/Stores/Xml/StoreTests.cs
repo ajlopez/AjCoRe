@@ -142,6 +142,13 @@ namespace AjCoRe.Tests.Stores.Xml
 
             Assert.IsNotNull(father);
 
+            Assert.AreEqual("Father", father.Properties["Name"].Value);
+            Assert.AreEqual(600, father.Properties["Age"].Value);
+
+            Guid guid = new Guid("{42DB2811-074C-4b63-A242-ED827844FCAA}");
+
+            Assert.AreEqual(guid, father.Id);
+
             var child1 = father.ChildNodes["child1"];
             var child2 = father.ChildNodes["child2"];
             var child3 = father.ChildNodes["child3"];

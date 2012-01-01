@@ -105,6 +105,8 @@
                             value = XmlConvert.ToDecimal(reader.Value);
                         else if (type == "double")
                             value = XmlConvert.ToDouble(reader.Value);
+                        else if (type == "guid")
+                            value = XmlConvert.ToGuid(reader.Value);
                         else
                             value = reader.Value;
 
