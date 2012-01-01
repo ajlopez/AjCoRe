@@ -56,6 +56,32 @@ namespace AjCoRe.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void RaiseWhenNameIsNullInSetPropertyValue()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode node = session.Workspace.RootNode;
+
+            using (var tr = session.OpenTransaction())
+            {
+                session.SetPropertyValue(node, null, "Adam");
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void RaiseWhenNameStartsWithUnderscoreInSetPropertyValue()
+        {
+            Session session = this.factory.OpenSession("ws1");
+            INode node = session.Workspace.RootNode;
+
+            using (var tr = session.OpenTransaction())
+            {
+                session.SetPropertyValue(node, "_Id", "Adam");
+            }
+        }
+
+        [TestMethod]
         public void SetAndRemoveProperty()
         {
             Session session = this.factory.OpenSession("ws1");

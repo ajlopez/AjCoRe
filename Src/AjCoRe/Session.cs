@@ -23,6 +23,12 @@ namespace AjCoRe
             if (this.transaction == null)
                 throw new InvalidOperationException("No Transaction in Session");
 
+            if (propname == null)
+                throw new InvalidOperationException("No Name provided");
+
+            if (propname.StartsWith("_"))
+                throw new InvalidOperationException("Provided Name is reserverd");
+
             Property property = node.Properties[propname];
             object original = null;
 

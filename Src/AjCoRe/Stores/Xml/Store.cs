@@ -45,8 +45,14 @@
                     writer.WriteAttributeString("type", "double");
                 else if (property.Value is bool)
                     writer.WriteAttributeString("type", "bool");
+                else if (property.Value is Guid)
+                    writer.WriteAttributeString("type", "guid");
 
-                writer.WriteValue(property.Value);
+                if (property.Value is Guid)
+                    writer.WriteValue(property.Value.ToString());
+                else
+                    writer.WriteValue(property.Value);
+
                 writer.WriteEndElement();
             }
 

@@ -52,7 +52,7 @@ namespace AjCoRe.Tests.Stores.Xml
 
         [TestMethod]
         [DeploymentItem("Files/XmlFileSystem", "xmlfs")]
-        public void SaveAndPropertiesWithSimpleTypes()
+        public void SaveAndRetrievePropertiesWithSimpleTypes()
         {
             PropertyList properties = new PropertyList(new List<Property>()
                 {
@@ -71,6 +71,39 @@ namespace AjCoRe.Tests.Stores.Xml
             var props = store.LoadProperties("/eve");
 
             Assert.AreEqual(6, props.Count());
+            Assert.AreEqual("Eve", props["Name"].Value);
+            Assert.AreEqual(600, props["Age"].Value);
+            Assert.AreEqual(false, props["Male"].Value);
+            Assert.AreEqual(new DateTime(2000, 1, 1), props["Hired"].Value);
+            Assert.AreEqual((double)10.2, props["Height"].Value);
+            Assert.AreEqual((decimal)200.50, props["Salary"].Value);
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files/XmlFileSystem", "xmlfs")]
+        public void SaveAndRetrievePropertiesWithId()
+        {
+            Guid guid = new Guid("{42DB2811-074C-4b63-A242-ED827844FCAA}");
+
+            PropertyList properties = new PropertyList(new List<Property>()
+                {
+                    new Property("_Id", guid),
+                    new Property("Name", "Eve"),
+                    new Property("Age", 600),
+                    new Property("Male", false),
+                    new Property("Hired", new DateTime(2000, 1, 1)),
+                    new Property("Height", (double) 10.2),
+                    new Property("Salary", (decimal) 200.50)
+                });
+
+            Store store = new Store("xmlfs");
+
+            store.SaveProperties("/eve", properties);
+
+            var props = store.LoadProperties("/eve");
+
+            Assert.AreEqual(7, props.Count());
+            Assert.AreEqual(guid, props["_Id"].Value);
             Assert.AreEqual("Eve", props["Name"].Value);
             Assert.AreEqual(600, props["Age"].Value);
             Assert.AreEqual(false, props["Male"].Value);
