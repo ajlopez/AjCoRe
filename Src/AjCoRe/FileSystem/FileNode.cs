@@ -56,6 +56,20 @@
                 return this.parent.Path + "/" + this.name;
             }
         }
+
+        public Session Session { get { throw new NotSupportedException(); } }
+
+        public object this[string name]
+        {
+            get
+            {
+                return this.properties[name].Value;
+            }
+            set
+            {
+                this.Session.SetPropertyValue(this, name, value);
+            }
+        }
     }
 }
 

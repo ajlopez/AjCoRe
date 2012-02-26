@@ -7,6 +7,6 @@
 
     interface INodeCreator
     {
-        INode CreateNode(INode parent, string name, IEnumerable<Property> Properties);
+        INode CreateNode(Session session, INode parent, string name, IEnumerable<Property> Properties);
     }
 }

@@ -10,6 +10,8 @@ namespace AjCoRe
     {
         private IWorkspace workspace;
         private Transaction transaction;
+        [ThreadStatic]
+        private static Transaction currentTransaction;
 
         public Session(IWorkspace workspace)
         {
@@ -18,7 +20,9 @@ namespace AjCoRe
 
         public IWorkspace Workspace { get { return this.workspace; } }
 
-        public void SetPropertyValue(INode node, string propname, object value)
+        internal static Transaction CurrentTransaction { get { return currentTransaction; } }
+
+        internal void SetPropertyValue(INode node, string propname, object value)
         {
             if (this.transaction == null)
                 throw new InvalidOperationException("No Transaction in Session");
@@ -44,7 +48,7 @@ namespace AjCoRe
             if (this.transaction == null)
                 throw new InvalidOperationException("No Transaction in Session");
 
-            INode node = ((INodeCreator)this.workspace).CreateNode(parent, name, properties);
+            INode node = ((INodeCreator)this.workspace).CreateNode(this, parent, name, properties);
 
             this.transaction.RegisterCreateNode(parent, node);
 
@@ -67,11 +71,19 @@ namespace AjCoRe
         {
             this.transaction = new Transaction(this);
 
+            if (currentTransaction == null)
+                currentTransaction = this.transaction;
+            else
+                throw new InvalidOperationException("There is an Existing Transaction");
+
             return this.transaction;
         }
 
         internal void CloseTransaction()
         {
+            if (currentTransaction == this.transaction)
+                currentTransaction = null;
+
             this.transaction = null;
         }
     }

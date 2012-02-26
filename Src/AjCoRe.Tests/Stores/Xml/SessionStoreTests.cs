@@ -24,9 +24,9 @@ namespace AjCoRe.Tests.Stores.Xml
 
             using (var tr = session.OpenTransaction())
             {
-                session.SetPropertyValue(node, "Name", "Adam");
+                node["Name"] = "Adam";
 
-                Assert.AreEqual("Adam", node.Properties["Name"].Value);
+                Assert.AreEqual("Adam", node["Name"]);
 
                 tr.Complete();
             }
@@ -47,9 +47,9 @@ namespace AjCoRe.Tests.Stores.Xml
 
             using (var tr = session.OpenTransaction())
             {
-                session.SetPropertyValue(node, "Name", "Adam");
+                node["Name"] = "Adam";
 
-                Assert.AreEqual("Adam", node.Properties["Name"].Value);
+                Assert.AreEqual("Adam", node["Name"]);
             }
 
             PropertyList properties = store.LoadProperties("/");

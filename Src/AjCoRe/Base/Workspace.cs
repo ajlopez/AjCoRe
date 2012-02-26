@@ -15,14 +15,14 @@
         public Workspace(string name, IEnumerable<Property> rootproperties)
         {
             this.name = name;
-            this.root = ((INodeCreator) this).CreateNode(null, string.Empty, rootproperties);
+            this.root = ((INodeCreator) this).CreateNode(null, null, string.Empty, rootproperties);
         }
 
         public Workspace(IStore store, string name)
         {
             this.name = name;
             this.store = store;
-            this.root = ((INodeCreator)this).CreateNode(null, string.Empty, store.LoadProperties("/"));
+            this.root = ((INodeCreator)this).CreateNode(null, null, string.Empty, store.LoadProperties("/"));
         }
 
         public string Name { get { return this.name; } }
@@ -31,12 +31,12 @@
 
         IStore IStorable.Store { get { return this.store; } }
 
-        INode INodeCreator.CreateNode(INode parent, string name, IEnumerable<Property> properties)
+        INode INodeCreator.CreateNode(Session session, INode parent, string name, IEnumerable<Property> properties)
         {
             if (parent != null && parent.ChildNodes[name] != null)
                 throw new InvalidOperationException("Duplicated Child Node Name");
 
-            return new Node(parent, name, properties, this.store);
+            return new Node(session, parent, name, properties, this.store);
         }
     }
 }

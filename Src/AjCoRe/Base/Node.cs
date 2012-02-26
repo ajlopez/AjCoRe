@@ -14,14 +14,17 @@
         private NodeList nodes;
         private INode parent;
         private IStore store;
+        private Session session;
 
-        internal Node(IEnumerable<Property> properties)
-            : this(null, string.Empty, properties, null)
+        internal Node(Session session, IEnumerable<Property> properties)
+            : this(session, null, string.Empty, properties, null)
         {
         }
 
-        internal Node(INode parent, string name, IEnumerable<Property> properties, IStore store)
+        internal Node(Session session, INode parent, string name, IEnumerable<Property> properties, IStore store)
         {
+            this.session = session;
+
             if (parent != null && name == String.Empty)
                 throw new InvalidOperationException("Child Node Name cannot be Empty");
 
@@ -76,12 +79,14 @@
                         path = string.Empty;
 
                     foreach (var name in this.store.GetChildNames(this.Path))
-                        new Node(this, name, this.store.LoadProperties(path + "/" + name), this.store);
+                        new Node(this.session, this, name, this.store.LoadProperties(path + "/" + name), this.store);
                 }
 
                 return this.nodes;
             }
         }
+
+        public Session Session { get { return this.session; } }
 
         public string Path
         {
@@ -104,6 +109,29 @@
 
             if (this.parent != null)
                 this.parent.ChildNodes.AddNode(this);
+        }
+
+        // TODO apply DRY this implementation is repeated
+        public object this[string name]
+        {
+            get
+            {
+                Property property = this.properties[name];
+
+                if (property == null)
+                    return null;
+
+                return this.properties[name].Value;
+            }
+            set
+            {
+                if (this.session != null)
+                    this.session.SetPropertyValue(this, name, value);
+                else
+                {
+                    Session.CurrentTransaction.Session.SetPropertyValue(this, name, value);
+                }
+            }
         }
     }
 }

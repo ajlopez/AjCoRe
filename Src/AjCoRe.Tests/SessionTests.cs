@@ -49,9 +49,9 @@ namespace AjCoRe.Tests
 
             using (var tr = session.OpenTransaction())
             {
-                session.SetPropertyValue(node, "Name", "Adam");
+                node["Name"] = "Adam";
 
-                Assert.AreEqual("Adam", node.Properties["Name"].Value);
+                Assert.AreEqual("Adam", node["Name"]);
             }
         }
 
@@ -64,7 +64,7 @@ namespace AjCoRe.Tests
 
             using (var tr = session.OpenTransaction())
             {
-                session.SetPropertyValue(node, null, "Adam");
+                node[null] = "Adam";
             }
         }
 
@@ -77,7 +77,7 @@ namespace AjCoRe.Tests
 
             using (var tr = session.OpenTransaction())
             {
-                session.SetPropertyValue(node, "_Id", "Adam");
+                node["_Id"] = "Adam";
             }
         }
 
@@ -89,9 +89,9 @@ namespace AjCoRe.Tests
 
             using (var tr = session.OpenTransaction())
             {
-                session.SetPropertyValue(node, "Name", "Adam");
-                session.SetPropertyValue(node, "Name", null);
-                Assert.IsNull(node.Properties["Name"]);
+                node["Name"] = "Adam";
+                node["Name"] = null;
+                Assert.IsNull(node["Name"]);
             }
         }
 
@@ -168,14 +168,14 @@ namespace AjCoRe.Tests
 
             using (var tr = session.OpenTransaction())
             {
-                session.SetPropertyValue(root, "Name", "Adam");
-                session.SetPropertyValue(root, "Age", 800);
+                root["Name"] = "Adam";
+                root["Age"] = 800;
 
                 tr.Complete();
             }
 
-            Assert.AreEqual("Adam", root.Properties["Name"].Value);
-            Assert.AreEqual(800, root.Properties["Age"].Value);
+            Assert.AreEqual("Adam", root["Name"]);
+            Assert.AreEqual(800, root["Age"]);
         }
 
         [TestMethod]
@@ -186,12 +186,12 @@ namespace AjCoRe.Tests
 
             using (var tr = session.OpenTransaction())
             {
-                session.SetPropertyValue(root, "Name", "Adam");
-                session.SetPropertyValue(root, "Age", 800);
+                root["Name"] = "Adam";
+                root["Age"] = 800;
             }
 
-            Assert.IsNull(root.Properties["Name"]);
-            Assert.IsNull(root.Properties["Age"]);
+            Assert.IsNull(root["Name"]);
+            Assert.IsNull(root["Age"]);
         }
 
         [TestMethod]
@@ -202,19 +202,19 @@ namespace AjCoRe.Tests
 
             using (var tr = session.OpenTransaction())
             {
-                session.SetPropertyValue(root, "Name", "Adam");
-                session.SetPropertyValue(root, "Age", 800);
+                root["Name"] = "Adam";
+                root["Age"] = 800;
                 tr.Complete();
             }
 
             using (var tr = session.OpenTransaction())
             {
-                session.SetPropertyValue(root, "Name", "Eve");
-                session.SetPropertyValue(root, "Age", 600);
+                root["Name"] = "Eve";
+                root["Age"] = 600;
             }
 
-            Assert.AreEqual("Adam", root.Properties["Name"].Value);
-            Assert.AreEqual(800, root.Properties["Age"].Value);
+            Assert.AreEqual("Adam", root["Name"]);
+            Assert.AreEqual(800, root["Age"]);
         }
 
         [TestMethod]

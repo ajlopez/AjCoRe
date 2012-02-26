@@ -15,5 +15,9 @@
         NodeList ChildNodes { get; }
 
         string Path { get; }
+
+        Session Session { get; }
+
+        object this[string name] { get; set; } 
     }
 }
